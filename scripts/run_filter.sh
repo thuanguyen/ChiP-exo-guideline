@@ -1,0 +1,40 @@
+#!/bin/sh
+WHERE_UBUNTU='/home/thuanguyen'
+
+FILE_NAME1='yiep1_align'
+FILE_NAME2='yiep2_align'
+FILE_NAME='yieP_peak'
+#MACE_PREPOPT='-d 4600000'
+MACE_PREPOPT='' 
+MACE_MACEOPT='-m 50'
+FILTER_THRESH1='0.95'
+FILTER_THRESH2='0.75'
+
+FILE_BAM1='../alignment/'$FILE_NAME1'.bam'
+FILE_BAM2='../alignment/'$FILE_NAME2'.bam'
+
+FILE_GFF1='../gff/'$FILE_NAME1'.gff'
+FILE_GFF2='../gff/'$FILE_NAME2'.gff'
+
+FILE_SIZE='../reference/ecoli_mg1655.txt'
+FILE_PREPROC='../peak/'$FILE_NAME
+FILE_BW_FWD=$FILE_PREPROC'_Forward.bw'
+FILE_BW_REV=$FILE_PREPROC'_Reverse.bw'
+
+FILE_BP_BED=$FILE_PREPROC'.border_pair.bed'
+FILE_BP_GFF=$FILE_PREPROC'.border_pair.gff'
+
+FILE_BP_ELI_BED=$FILE_PREPROC'.border_pair_elite.bed'
+FILE_BP_ELI_GFF=$FILE_PREPROC'.border_pair_elite.gff'
+
+BPF_TH1=$FILE_PREPROC'.border_pair_filtered_'$FILTER_THRESH1'.gff'
+BPF_TH2=$FILE_PREPROC'.border_pair_filtered_'$FILTER_THRESH2'.gff'
+
+
+#WHERE_FILTERPEAK= 'java -Xmx3000m FilterPeak'
+
+echo $WHERE_FILTERPEAK $FILE_BP_GFF $FILE_GFF1 $FILE_GFF2 $FILTER_THRESH1 $BPF_TH1
+java -Xmx3000m FilterPeak $FILE_BP_GFF $FILE_GFF1 $FILE_GFF2 $FILTER_THRESH1 $BPF_TH1
+
+echo $WHERE_FILTERPEAK $FILE_BP_GFF $FILE_GFF1 $FILE_GFF2 $FILTER_THRESH1 $BPF_TH2
+java -Xmx3000m FilterPeak $FILE_BP_GFF $FILE_GFF1 $FILE_GFF2 $FILTER_THRESH1 $BPF_TH2
